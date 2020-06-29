@@ -14,7 +14,8 @@ mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
-}).catch(err => console.error(`Error: ${err}`));
+}).then(console.log("MongoDB Connected"))
+  .catch(err => console.error(`Error: ${err}`));
 
 // Implement Body Parser
 const bodyParser = require('body-parser');
@@ -57,7 +58,7 @@ app.use('/', (req, res, next) => {
   res.locals.flash = req.flash();
   res.locals.formData = req.session.formData || {};
   req.session.formData = {};
-  
+
   // Authentication helper
   res.locals.authorized = req.isAuthenticated();
   if (res.locals.authorized) res.locals.email = req.session.passport.user;
