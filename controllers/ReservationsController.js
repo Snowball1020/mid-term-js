@@ -16,7 +16,7 @@ exports.index = async (req, res) => {
             .populate("user")
         //and pass all collected data into index page so we can use them there
         res.render(`${view}/index`, {
-            title: "Index Page",
+            pageTitle: "Index Page",
             reservations: reservations,
             user: req.user
         })
@@ -30,7 +30,7 @@ exports.index = async (req, res) => {
 //New page simply take the logged in user to the page they can make a reservation(form)
 exports.new = async (req, res) => {
     res.render(`${view}/new`, {
-        title: "New Reservation",
+        pageTitle: "New Reservation",
         restaurants: ["Kelseys", "Montanas", "Outbacks", "Harveys", "Swiss Chalet"]
 
     })
@@ -67,7 +67,7 @@ exports.show = async (req, res) => {
             .populate("user")
         // and pass it to /show page as reservation so we can use it there
         res.render(`${view}/show`, {
-            title: "Show Page",
+            pageTitle: "Show Page",
             reservation: reservation,
             user: req.user
         })
@@ -85,7 +85,7 @@ exports.edit = async (req, res) => {
         const reservation = await Reservation.findOne({ _id: req.params.id });
         // take all data inside reservation and store into formData, and pass it to /edit page
         res.render(`${view}/edit`, {
-            title: "edit reservation",
+            pageTitle: "edit reservation",
             formData: reservation,
             restaurants: ["Kelseys", "Montanas", "Outbacks", "Harveys", "Swiss Chalet"]
         });
@@ -100,9 +100,10 @@ exports.update = async (req, res) => {
 
     try {
         //get the user id from session
-        const { user: email } = req.session.passport
-        const user = await User.findOne({ email: email })
-        console.log(req.user)
+
+        const user = await User.findOne({ email: req.user.email })
+
+        //        console.log(req.user)
         //attach the user id with input data and store everything as one data "contents"
         const contents = { user: user._id, ...req.body }
         //now pass to findByIdAndUpdate (a selected reservation (req.body.id is reservation id), contents)
