@@ -18,7 +18,7 @@
 
         <div class="card-body">
           <p class="card-text">
-            Your reservation is for <strong><%= reservation.dateAndTime %></strong> for <%=  reservation.quantityOfGuests %>. Please be on time to avoid losing your seat.
+            Your reservation is for <strong><%= reservation.dateAndTime.toLocaleString() %></strong> for <%=  reservation.quantityOfGuests %>. Please be on time to avoid losing your seat.
           </p>
         </div>
 
